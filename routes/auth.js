@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
 
     const newUser = new User({ login, password: hashedPassword });
     await newUser.save();
-    console.log(`New user registered: ${hashedPassword}`);
+    
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.log(error);
@@ -37,9 +37,6 @@ router.post("/login", async (req, res) => {
       res.status(400).json({ message: "Invalid password" });
     }
     res.status(200).json({ message: ` ${login},You are login successful`});
-
-    console.log(`Введённый пароль: ${passwordMatch}`);
-    console.log(`Пароль из базы (хеш): ${foundUser.password}`);
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error" });
