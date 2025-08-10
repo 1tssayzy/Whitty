@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Your Profile</h1>
+        <p>Welcome, <span id="username">[Username]</span>!</p>
+        <p>Email: <span id="email">[Email]</span></p>
+        <button id="logout-button">Logout</button>
+    </div>
+
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function() {
+            window.location.href = '/logout';
+        });
+    </script>
+</body>
+</html>

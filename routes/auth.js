@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const router = express.Router();
+const path = require("path"); 
 
 router.post("/register", async (req, res) => {
   const { login, password } = req.body;
@@ -26,20 +27,22 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { login, password } = req.body;
-
   try {
     const foundUser = await User.findOne({ login });
     if (!foundUser) {
       return res.status(400).json({ message: "User not found" });
     }
     const passwordMatch = await bcrypt.compare(password, foundUser.password);
+    console.log("Password match:", );
     if (!passwordMatch) {
       res.status(400).json({ message: "Invalid password" });
     }
-    res.status(200).json({ message: ` ${login},You are login successful`});
+    res.sendFile(path.join(__dirname, "../pages/profile.html"));
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error" });
   }
 });
+
+
 module.exports = router;

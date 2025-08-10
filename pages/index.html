@@ -7,19 +7,17 @@
   <link rel="stylesheet" href="/styles/style.css" />
 </head>
 <body class="login-page">
-    <div class="logo-container">
-        <img src="/images/logo.png" alt="Whitty Logo" class="logo" />
-  <form class="login-form" action="/login" method="POST">
+      <form class="login-form"  id = "loginInput">
     <h1>Welcome Back 👋</h1>
 
     <div class="input-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required />
+      <label for="username">Login</label>
+      <input type="text" id="loginL" name="login" required />
     </div>
 
     <div class="input-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+      <label for="passwordInput">Password</label>
+      <input type="password" id="passwordL" name="password" required />
     </div>
 
     <button type="submit">Login</button>
@@ -28,5 +26,7 @@
       Don't have an account? <a href="/pages/register.html">Register</a>
     </p>
   </form>
+  <script src="/src/logic.js"></script>
 </body>
+
 </html>
