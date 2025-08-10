@@ -9,14 +9,18 @@ form.addEventListener("submit", async (e) => {
     password: password.value,
   };
 
-fetch('http://localhost:8080/auth/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(data)
-})
-.then(res => res.json())
-.then(result => console.log("Ответ сервера:", result))
-.catch(err => console.error("Ошибка запроса:", err));
+  fetch("http://localhost:8080/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.message === "Login successful") {
+        window.location.href = "/pages/profile.html";
+      } else {
+        alert(data.message);
+      }
+    })
+    .catch((err) => console.error("Ошибка запроса:", err));
 });

@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-    <form class = "register-form" action="/register" method="POST">
+    <form class = "register-form" id = "registerForm" action="http://localhost:8080/register" method="POST">
         <h1>Create an Account</h1>
 
         <div class="input-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" required />
+            <input type="text" id="login" name="username" required />
         </div>
 
         <div class="input-group">
@@ -27,5 +27,6 @@
         </p>
 
     </form>
+    <script src="/src/registration.js"></script>
 </body>
 </html>
