@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const router = express.Router();
-const path = require("path"); 
+const path = require("path");
 
 router.post("/register", async (req, res) => {
   const { login, password } = req.body;
@@ -17,8 +17,15 @@ router.post("/register", async (req, res) => {
 
     const newUser = new User({ login, password: hashedPassword });
     await newUser.save();
-    
-    res.status(200).json({ success: true, message: "User registered successfully" });
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 1000,
+    });
+    res.json({ message: "User registered successfully", redirect: "/profile" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -30,6 +37,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const foundUser = await User.findOne({ login });
+
     if (!foundUser) {
       return res.status(400).json({ message: "User not found" });
     }
@@ -37,14 +45,20 @@ router.post("/login", async (req, res) => {
 
     const passwordMatch = await bcrypt.compare(password, foundUser.password);
     if (!passwordMatch) {
-      res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Invalid password" });
     }
-   res.json({ message: "Login successful" });
+    const token = jwt.sign({ id: foundUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 1000, 
+    });
+    res.json({ message: "Login successful", redirect: "/profile" });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error" });
   }
 });
-
 
 module.exports = router;

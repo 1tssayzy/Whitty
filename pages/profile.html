@@ -9,14 +9,13 @@
 <body>
     <div class="profile-container">
         <h1>Your Profile</h1>
-        <p>Welcome, <span id="username">[Username]</span>!</p>
-        <p>Email: <span id="email">[Email]</span></p>
+        <p>Welcome, <span id="username"></span></p>
         <button id="logout-button">Logout</button>
     </div>
 
     <script>
         document.getElementById('logout-button').addEventListener('click', function() {
-            window.location.href = '/login';
+            window.location.href = '/logout'; 
         });
     </script>
 </body>

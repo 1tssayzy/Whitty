@@ -1,26 +1,29 @@
 const form = document.getElementById("loginInput");
-const login = document.getElementById("loginL");
-const password = document.getElementById("passwordL");
+const loginField = document.getElementById("loginL");
+const passwordField = document.getElementById("passwordL");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
   const data = {
-    login: login.value,
-    password: password.value,
+    login: loginField.value,
+    password: passwordField.value,
   };
 
-  fetch("http://localhost:8080/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.message === "Login successful") {
-        window.location.href = "/pages/profile.html";
-      } else {
-        alert(data.message);
-      }
-    })
-    .catch((err) => console.error("Ошибка запроса:", err));
+  try {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json(); 
+    if (result.redirect) {
+      window.location.href = result.redirect;
+    } else {
+      alert("Login failed: " + result.message);
+    }
+  } catch (err) {
+    console.error("Error during login:", err);
+  }
 });
