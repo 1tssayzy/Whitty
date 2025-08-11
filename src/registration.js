@@ -21,7 +21,7 @@ form.addEventListener("submit", async (e) => {
         alert("Registration failed: " + result.message);
     }
     }catch (error) {
-        console.error("Error during registration:", error);
+        console.error("Error registration:", error);
         alert("Registration failed: " + error.message);
     }     
     
