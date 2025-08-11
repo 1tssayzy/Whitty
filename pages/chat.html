@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Whitty chat</title>
+    <link rel="stylesheet" href="/styles/chat.css" />
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="formChat" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+    <button id="profile">Profile</button>
+  </body>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script src="/chat/client.js"></script>
+  <script src="/chat/chatLogic.js"></script>
+</html>

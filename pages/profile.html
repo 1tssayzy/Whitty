@@ -11,11 +11,15 @@
         <h1>Your Profile</h1>
         <p>Welcome, <span id="username"></span></p>
         <button id="logout-button">Logout</button>
+        <button id="chat-button"> Start chating</button>
     </div>
 
     <script>
         document.getElementById('logout-button').addEventListener('click', function() {
             window.location.href = '/logout'; 
+        });
+        document.getElementById('chat-button').addEventListener('click', function() {
+            window.location.href = '/chat'; 
         });
     </script>
 </body>
