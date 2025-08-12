@@ -5,6 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
+const jwt = require("jsonwebtoken");
 
 const user = require("../models/user");
 const connectDB = require("./database");
@@ -14,6 +15,12 @@ const { requireAuth } = require("../middleware/authMiddleware");
 const env = dotenv.config();
 const port = process.env.PORT;
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    credentials: true,
+  },
+});
 
 //Middleware setup
 app.use(cookieParser());
@@ -28,8 +35,23 @@ app.use("/src", express.static(path.join(__dirname, "../src")));
 app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use("/chat", express.static(path.join(__dirname, "../chat")));
 
-const server = createServer(app);
-const io = new Server(server);
+io.use((socket, next) => {
+  const cookieHeader = socket.handshake.headers.cookie || "";
+  const cookies = Object.fromEntries(
+    cookieHeader.split("; ").map((c) => c.split("="))
+  );
+
+  const token = cookies.jwt;
+  if (!token) return next(new Error("No token provided"));
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    socket.data.username = decoded.username;
+    next();
+  } catch (err) {
+    next(new Error("Authentication error"));
+  }
+});
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
@@ -51,15 +73,20 @@ app.get("/chat", requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, "../pages/chat.html"));
 });
 io.on("connection", (socket) => {
-  console.log("New client connected");
+  console.log(`${socket.data.username} connected`);
   socket.on("sendMessage", (message) => {
     console.log("Сообщение от пользователя:", message);
-    io.emit("new_message", message);
+    io.emit("new_message", {
+      username: socket.data.username,
+      message,
+    });
   });
+
   socket.on("disconnect", () => {
     console.log(" ❌ Client disconnected", socket.id);
   });
 });
+
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
   connectDB();

@@ -17,13 +17,18 @@ router.post("/register", async (req, res) => {
 
     const newUser = new User({ login, password: hashedPassword });
     await newUser.save();
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { username: newUser.login, id: newUser._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
+      sameSite: "lax",
     });
     res.json({ message: "User registered successfully", redirect: "/profile" });
   } catch (error) {
@@ -45,12 +50,16 @@ router.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
-    const token = jwt.sign({ id: foundUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { username: foundUser.login, id: foundUser._id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
     res.cookie("jwt", token, {
       httpOnly: true,
-      maxAge: 60 * 60 * 1000, 
+      maxAge: 60 * 60 * 1000,
     });
     res.json({ message: "Login successful", redirect: "/profile" });
   } catch (e) {

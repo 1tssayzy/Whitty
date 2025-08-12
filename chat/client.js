@@ -1,4 +1,7 @@
-const socket = io();
+const socket = io("http://localhost:8080", {
+  transports: ["websocket"],
+  withCredentials: true,
+});
 const form = document.getElementById("formChat");
 const input = document.getElementById("input");
 socket.on("connect", () => {
