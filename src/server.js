@@ -74,8 +74,10 @@ app.get("/chat", requireAuth, (req, res) => {
 });
 io.on("connection", (socket) => {
   console.log(`${socket.data.username} connected`);
+
+  socket.emit("user_info", { username: socket.data.username });
+
   socket.on("sendMessage", (message) => {
-    console.log("Сообщение от пользователя:", message);
     io.emit("new_message", {
       username: socket.data.username,
       message,
@@ -83,9 +85,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    console.log(`${socket.data.username} disconnected`);
+  });
+
+
+  socket.on("disconnect", () => {
     console.log(" ❌ Client disconnected", socket.id);
   });
+
 });
+
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

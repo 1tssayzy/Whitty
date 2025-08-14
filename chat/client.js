@@ -7,10 +7,18 @@ const input = document.getElementById("input");
 socket.on("connect", () => {
   console.log("Connected to chat server");
 });
+socket.on("user_info", (data) => {
+  document.getElementById("username").textContent = data.username;
+});
+socket.on("new_message", (data) => {
+  const messageElement = document.createElement("div");
+  messageElement.textContent = `${data.username}: ${data.message}`;
+  document.body.appendChild(messageElement);
+});
 socket.on("message", (message) => {
   const messageElement = document.createElement("div");
   messageElement.textContent = message;
-  document.body.appendChild(messageElement);
+  document.body.appendChild(loginmessageElement);
 });
 form.addEventListener("submit", (e) => {
   e.preventDefault();
