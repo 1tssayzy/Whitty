@@ -12,22 +12,16 @@ socket.on("user_info", (data) => {
 });
 socket.on("new_message", (data) => {
   const messageElement = document.createElement("div");
-  messageElement.textContent = `${data.username}: ${data.message}`;
+  messageElement.textContent = `@${data.username} : ${data.message}`;
   document.body.appendChild(messageElement);
 });
-socket.on("message", (message) => {
-  const messageElement = document.createElement("div");
-  messageElement.textContent = message;
-  document.body.appendChild(loginmessageElement);
-});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   if (input.value) {
     socket.emit("sendMessage", input.value);
-    console.log("Message sent:", input.value);
+    console.log("Message sent :", input.value);
     const messageElement = document.createElement("div");
-    messageElement.textContent = input.value;
-    document.body.appendChild(messageElement);
     input.value = "";
   }
 });

@@ -9,11 +9,14 @@
 <body>
     <div class="profile-container">
         <h1>Your Profile</h1>
-        <p>Welcome, <span id="username"></span></p>
+        <p>Welcome,<span id="username"></span></p>
         <button id="logout-button">Logout</button>
         <button id="chat-button"> Start chating</button>
     </div>
 
+    
+     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="/chat/client.js"></script>
     <script>
         document.getElementById('logout-button').addEventListener('click', function() {
             window.location.href = '/logout'; 
@@ -21,6 +24,11 @@
         document.getElementById('chat-button').addEventListener('click', function() {
             window.location.href = '/chat'; 
         });
+        
+        socket.on('user_info', (data) => {
+            document.getElementById('username').textContent = data.username
+        })
+        
     </script>
 </body>
 </html>

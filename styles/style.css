@@ -1,86 +1,77 @@
-* {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
+/* Общие стили */
 body {
-  background-color: #f3efe9; /* не белый, а мягкий тёплый беж */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  background-color: #ffffff; /* чисто белая форма */
-  border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05); /* тонкая мягкая граница */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08); /* лёгкая тень */
-  padding: 40px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  transition: box-shadow 0.3s ease;
-}
-
-.container:hover {
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1); /* небольшая анимация при наведении */
-}
-
-h2 {
-  margin-bottom: 24px;
-  font-size: 24px;
-  color: #3c3c3c;
-}
-
-form {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f6f2eb; /* бежевый фон */
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  color: #333;
 }
 
-input {
-  padding: 12px;
-  margin-bottom: 16px;
-  border: 1px solid #e0dcd5;
-  border-radius: 8px;
-  background-color: #fefefe;
-  font-size: 16px;
+/* Список сообщений */
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
 }
 
-input:focus {
-  outline: none;
-  border-color: #d6c6b8;
-  background-color: #fffdfb;
+#messages li {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-button {
-  padding: 12px;
-  background-color: #d6c6b8;
-  color: white;
-  font-size: 16px;
+/* Форма отправки сообщений */
+#formChat {
+  display: flex;
+  background: #f6f2eb;
+  padding: 0.5rem;
+  border-top: 1px solid #ddd;
+}
+
+#input {
+  flex: 1;
+  padding: 0.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  margin-right: 0.5rem;
+  outline: none;
+  background: #fff;
+}
+
+#formChat button {
+  background: #d8c3aa; /* мягкий бежево-коричневый */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  color: #000;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  font-weight: bold;
+  transition: background 0.2s ease;
 }
 
-button:hover {
-  background-color: #c8b7a5;
+#formChat button:hover {
+  background: #c6ad92;
 }
 
-p {
-  margin-top: 16px;
-  font-size: 14px;
-  color: #555;
+/* Кнопка профиля */
+#profile {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #d8c3aa;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-a {
-  color: #a89078;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+#profile:hover {
+  background: #c6ad92;
 }
