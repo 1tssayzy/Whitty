@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link rel="stylesheet" href="/styles/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
     <div class="profile-container">
-        <h1>Your Profile</h1>
-        <p>Welcome,<span id="username"></span></p>
-        <button id="logout-button">Logout</button>
-        <button id="chat-button"> Start chating</button>
+      <h1>Your Profile</h1>
+      <p>Welcome, <span id="username"></span></p>
+      <button id="logout-button">Logout</button>
+      <button id="chat-button">Start chating</button>
+
+      <form id="avatarForm" enctype="multipart/form-data">
+        <input type="file" name="avatar" accept="image/*" required />
+        <button type="submit">Загрузить</button>
+      </form>
     </div>
 
-    
-     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-    <script src="/chat/client.js"></script>
     <script>
-        document.getElementById('logout-button').addEventListener('click', function() {
-            window.location.href = '/logout'; 
+      document
+        .getElementById("logout-button")
+        .addEventListener("click", function () {
+          window.location.href = "/logout";
         });
         document.getElementById('chat-button').addEventListener('click', function() {
             window.location.href = '/chat'; 
@@ -30,5 +34,5 @@
         })
         
     </script>
-</body>
+  </body>
 </html>

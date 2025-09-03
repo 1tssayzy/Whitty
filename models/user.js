@@ -9,7 +9,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }, });
+    },
+    avatar: {
+        type: String,
+    }
+});
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next(); 
     next();

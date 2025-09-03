@@ -11,6 +11,7 @@ const user = require("../models/user");
 const connectDB = require("./database");
 const auth = require("../routes/auth");
 const { requireAuth } = require("../middleware/authMiddleware");
+const avatarRouter = require("../routes/upload.router");
 
 const env = dotenv.config();
 const port = process.env.PORT;
@@ -26,14 +27,14 @@ const io = new Server(server, {
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 //routing setup
 app.use("/auth", auth);
 app.use("/styles", express.static(path.join(__dirname, "../styles")));
 app.use("/src", express.static(path.join(__dirname, "../src")));
 app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use("/chat", express.static(path.join(__dirname, "../chat")));
+app.use("/avatars", express.static(path.join(__dirname, "../uploads/avatars")));
+app.use("/api", avatarRouter);
 
 io.use((socket, next) => {
   const cookieHeader = socket.handshake.headers.cookie || "";
@@ -85,16 +86,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(`${socket.data.username} disconnected`);
-  });
-
-
-  socket.on("disconnect", () => {
     console.log(" ❌ Client disconnected", socket.id);
   });
-
 });
-
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
