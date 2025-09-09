@@ -13,12 +13,15 @@
       <button id="logout-button">Logout</button>
       <button id="chat-button">Start chating</button>
 
-      <form id="avatarForm" enctype="multipart/form-data">
+      <form id="avatarForm" enctype="multipart/form-data" action="/api/upload-avatar" method="POST">
         <input type="file" name="avatar" accept="image/*" required />
         <button type="submit">Загрузить</button>
       </form>
+      <img id="profile-pic" src="" alt="Profile Picture" width="300" />
     </div>
-
+    
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="/chat/client.js"></script>
     <script>
       document
         .getElementById("logout-button")
@@ -32,6 +35,8 @@
         socket.on('user_info', (data) => {
             document.getElementById('username').textContent = data.username
         })
+        const form = document.getElementById('avatarForm')
+        
         
     </script>
   </body>
