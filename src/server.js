@@ -53,9 +53,12 @@ io.use((socket, next) => {
     next(new Error("Authentication error"));
   }
 });
+
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
+
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
@@ -84,7 +87,6 @@ io.on("connection", (socket) => {
       message,
     });
   });
-
   socket.on("disconnect", () => {
     console.log(" ❌ Client disconnected", socket.id);
   });

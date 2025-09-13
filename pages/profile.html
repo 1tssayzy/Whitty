@@ -13,13 +13,13 @@
       <button id="logout-button">Logout</button>
       <button id="chat-button">Start chating</button>
 
-      <form id="avatarForm" enctype="multipart/form-data" action="/api/upload-avatar" method="POST">
+      <form id="avatarForm" enctype="multipart/form-data">
         <input type="file" name="avatar" accept="image/*" required />
         <button type="submit">Загрузить</button>
       </form>
       <img id="profile-pic" src="" alt="Profile Picture" width="300" />
     </div>
-    
+
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
     <script src="/chat/client.js"></script>
     <script>
@@ -28,16 +28,42 @@
         .addEventListener("click", function () {
           window.location.href = "/logout";
         });
-        document.getElementById('chat-button').addEventListener('click', function() {
-            window.location.href = '/chat'; 
+      document
+        .getElementById("chat-button")
+        .addEventListener("click", function () {
+          window.location.href = "/chat";
         });
-        
-        socket.on('user_info', (data) => {
-            document.getElementById('username').textContent = data.username
-        })
-        const form = document.getElementById('avatarForm')
-        
-        
+
+      socket.on("user_info", (data) => {
+        document.getElementById("username").textContent = data.username;
+      });
+      const form = document.getElementById("avatarForm");
+
+      const profilePic = document.getElementById("profile-pic");
+      form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+        const res = await fetch('/api/upload-avatar', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(`Ошибка сервера: ${res.status} ${errText}`);
+        }
+
+        const avatarPath = await res.text();
+        console.log("✅ Получен путь:", avatarPath);
+        profilePic.src = avatarPath;
+    } catch (err) {
+        console.error("❌ Ошибка загрузки:", err);
+        alert("Ошибка загрузки: " + err.message);
+    }
+});
     </script>
   </body>
 </html>
