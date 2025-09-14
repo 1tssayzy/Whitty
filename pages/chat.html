@@ -6,13 +6,23 @@
     <link rel="stylesheet" href="/styles/chat.css" />
   </head>
   <body>
+    <div id="userProfile">
+      <img id="avatar" src="" alt="avatar" width="40" height="40" />
+      <span id="username"></span>
+    </div>
     <ul id="messages"></ul>
     <form id="formChat" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off" placeholder="Type message..." />
+      <button>Send</button>
     </form>
+
     <button id="profile">Profile</button>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" defer></script>
+    <script src="/chat/client.js" defer></script> 
+    <script>
+      document.getElementById("profile").addEventListener("click", function () {
+        window.location.href = "/profile";
+      });
+    </script>
   </body>
-  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" defer></script>
-  <script src="/chat/client.js" defer></script>
-  <script src="/chat/chatLogic.js" defer></script>
 </html>

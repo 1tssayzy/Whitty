@@ -40,7 +40,7 @@ app.use("/avatars", express.static(path.join(__dirname, "../uploads/avatars")));
 app.use("/api", avatarRouter);
 app.use("/api", avatarSyncRouter);
 
-io.use((socket, next) => {
+io.use(async (socket, next) => {
   const cookieHeader = socket.handshake.headers.cookie || "";
   const cookies = Object.fromEntries(
     cookieHeader.split("; ").map((c) => c.split("="))
@@ -51,13 +51,19 @@ io.use((socket, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    socket.data.username = decoded.username;
+    const user = await User.findById(decoded.id);
+    if (user) {
+      socket.data.avatar = user.avatar;
+      socket.data.username = user.login;
+    } else {
+      socket.data.avatar = "/avatars/default.png";
+      socket.data.username = "Anonymous";
+    }
     next();
   } catch (err) {
     next(new Error("Authentication error"));
   }
 });
-
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
@@ -83,13 +89,18 @@ app.get("/chat", requireAuth, (req, res) => {
 io.on("connection", (socket) => {
   console.log(`${socket.data.username} connected`);
 
-  socket.emit("user_info", { username: socket.data.username });
+  socket.emit("user_info", {
+    username: socket.data.username,
+    avatar: socket.data.avatar,
+  });
 
-  socket.on("sendMessage", (message) => {
+  socket.on("sendMessage", (msg) => {
     io.emit("new_message", {
       username: socket.data.username,
-      message,
+      avatar: socket.data.avatar,
+      message: msg,
     });
+
   });
   socket.on("disconnect", () => {
     console.log(" ❌ Client disconnected", socket.id);
