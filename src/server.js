@@ -1,3 +1,4 @@
+// Required modules
 const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
@@ -6,13 +7,15 @@ const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
 const jwt = require("jsonwebtoken");
-
-const user = require("../models/user");
+// Models
+const User = require("../models/user");
 const connectDB = require("./database");
 const auth = require("../routes/auth");
 const { requireAuth } = require("../middleware/authMiddleware");
 const avatarRouter = require("../routes/upload.router");
+const avatarSyncRouter = require("../routes/avatar.router");
 
+// Load environment variables
 const env = dotenv.config();
 const port = process.env.PORT;
 const app = express();
@@ -35,6 +38,7 @@ app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use("/chat", express.static(path.join(__dirname, "../chat")));
 app.use("/avatars", express.static(path.join(__dirname, "../uploads/avatars")));
 app.use("/api", avatarRouter);
+app.use("/api", avatarSyncRouter);
 
 io.use((socket, next) => {
   const cookieHeader = socket.handshake.headers.cookie || "";

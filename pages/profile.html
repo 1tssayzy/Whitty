@@ -40,30 +40,44 @@
       const form = document.getElementById("avatarForm");
 
       const profilePic = document.getElementById("profile-pic");
-      form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    const formData = new FormData(form);
+        const formData = new FormData(form);
 
-    try {
-        const res = await fetch('/api/upload-avatar', {
-            method: 'POST',
-            body: formData
-        });
+        try {
+          const res = await fetch("/api/upload-avatar", {
+            method: "POST",
+            body: formData,
+          });
 
-        if (!res.ok) {
+          if (!res.ok) {
             const errText = await res.text();
             throw new Error(`Ошибка сервера: ${res.status} ${errText}`);
-        }
+          }
 
-        const avatarPath = await res.text();
-        console.log("✅ Получен путь:", avatarPath);
-        profilePic.src = avatarPath;
-    } catch (err) {
-        console.error("❌ Ошибка загрузки:", err);
-        alert("Ошибка загрузки: " + err.message);
-    }
-});
+          const avatarPath = await res.text();
+          profilePic.src = avatarPath;
+        } catch (err) {
+          console.error("❌ Ошибка загрузки:", err);
+          alert("Ошибка загрузки: " + err.message);
+        }
+      });
     </script>
+    <script type = "module">
+      import { getCurrentUser } from "/src/api.js";
+      async function loadCurrentAvatar() {
+        try {
+          const user = await getCurrentUser();
+          if (user.avatar) {
+            document.getElementById("profile-pic").src = user.avatar;
+          }
+        } catch (err) {
+          console.error("❌ Ошибка получения данных пользователя:", err);
+        }
+      }
+      loadCurrentAvatar();
+    </script>
+    
   </body>
 </html>
