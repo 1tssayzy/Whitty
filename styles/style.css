@@ -1,12 +1,43 @@
 /* Общие стили */
+.logo {
+  display: block;
+  margin: 2rem auto 1rem auto;
+  max-width: 100px;
+}
+#profile-pic {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.login-form {
+  margin:0 auto;
+  max-width: 400px;
+  background: #f7f3eb;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+.login-form h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #231a15;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Geologica", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 496;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
   background-color: #f6f2eb; /* бежевый фон */
-  display: flex;
-  flex-direction: column;
+
+
   height: 100vh;
-  color: #333;
+  color: #231a15
 }
 
 /* Список сообщений */
@@ -53,6 +84,7 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: background 0.2s ease;
+  
 }
 
 #formChat button:hover {

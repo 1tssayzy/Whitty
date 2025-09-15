@@ -27,7 +27,7 @@ socket.on("new_message", (data) => {
 
   const usernameSpan = document.createElement("span");
   usernameSpan.textContent = data.username + ": ";
-  usernameSpan.style.fontWeight = "bold";
+  usernameSpan.style.fontWeight = "common";
   
   const textSpan = document.createElement("span")
   textSpan.textContent = data.message
