@@ -7,9 +7,10 @@ const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
 const jwt = require("jsonwebtoken");
+
 // Models
 const User = require("../models/user");
-const connectDB = require("./database");
+const { connectDB, redisConnect } = require("./database");
 const auth = require("../routes/auth");
 const { requireAuth } = require("../middleware/authMiddleware");
 const avatarRouter = require("../routes/upload.router");
@@ -37,6 +38,7 @@ app.use("/src", express.static(path.join(__dirname, "../src")));
 app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use("/chat", express.static(path.join(__dirname, "../chat")));
 app.use("/avatars", express.static(path.join(__dirname, "../uploads/avatars")));
+app.use("/imgSite", express.static(path.join(__dirname, "../uploads/imgSite")));
 app.use("/api", avatarRouter);
 app.use("/api", avatarSyncRouter);
 
@@ -94,13 +96,16 @@ io.on("connection", (socket) => {
     avatar: socket.data.avatar,
   });
 
+  socket.on("registration", (username) => {
+    socket.data.username = username;
+  });
+
   socket.on("sendMessage", (msg) => {
     io.emit("new_message", {
       username: socket.data.username,
       avatar: socket.data.avatar,
       message: msg,
     });
-
   });
   socket.on("disconnect", () => {
     console.log(" ❌ Client disconnected", socket.id);
@@ -110,4 +115,5 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
   connectDB();
+  redisConnect();
 });
