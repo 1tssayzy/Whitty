@@ -15,6 +15,7 @@ const auth = require("../routes/auth");
 const { requireAuth } = require("../middleware/authMiddleware");
 const avatarRouter = require("../routes/upload.router");
 const avatarSyncRouter = require("../routes/avatar.router");
+const user = require("../models/user");
 
 // Load environment variables
 const env = dotenv.config();
@@ -88,12 +89,26 @@ app.get("/logout", (req, res) => {
 app.get("/chat", requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, "../pages/chat.html"));
 });
+const onlineUsers = new Map();
+
 io.on("connection", (socket) => {
-  console.log(`${socket.data.username} connected`);
+  const username = socket.data.username;
+  onlineUsers.set(username,socket.id);
+  console.log(`${username} connected`,socket.id);
+  console.log(onlineUsers.entries())
+  
+
+  socket.on("user_connection",(user) => {
+     onlineUsers.set(user.id, user.usermame);
+     console.log(onlineUsers);
+    })
+  
+ 
 
   socket.emit("user_info", {
     username: socket.data.username,
     avatar: socket.data.avatar,
+    status: socket.data.status,
   });
 
   socket.on("registration", (username) => {
@@ -108,12 +123,13 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("disconnect", () => {
-    console.log(" ❌ Client disconnected", socket.id);
+    console.log(" ❌ Client disconnected", socket.data.username,socket.id);
+    onlineUsers.delete(username,socket.id)
+    console.log(onlineUsers.entries());
   });
 });
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
   connectDB();
-  redisConnect();
 });

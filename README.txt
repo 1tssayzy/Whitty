@@ -1,1 +1,1 @@
-My own social network;..
+My own social network;.. later i add a demo and description

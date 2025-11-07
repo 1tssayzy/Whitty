@@ -13,9 +13,10 @@ socket.on("user_info", (data) => {
   document.getElementById("avatar").src = data.avatar || "/avatars/default.png";
 });
 socket.on("new_message", (data) => {
+  const status = data.status;
   const messageElement = document.createElement("li");
   
-
+ 
   const avatarImg = document.createElement("img");
   avatarImg.src = data.avatar || "/avatars/default.png";
   avatarImg.alt = "User Avatar";
@@ -25,6 +26,9 @@ socket.on("new_message", (data) => {
   avatarImg.style.borderRadius = "50%";
   avatarImg.style.marginRight = "8px";
 
+  const statusOnline = document.createElement("a")
+  statusOnline.textContent = data.status + ": ";
+  
   const usernameSpan = document.createElement("span");
   usernameSpan.textContent = data.username + ": ";
   usernameSpan.style.fontWeight = "common";
