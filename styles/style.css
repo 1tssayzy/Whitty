@@ -1,0 +1,117 @@
+/* Общие стили */
+.logo {
+  display: block;
+  margin: 2rem auto 1rem auto;
+  max-width: 100px;
+}
+#profile-pic {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.profile-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #f7f3eb;
+    padding: 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-form {
+  margin:0 auto;
+  max-width: 400px;
+  background: #f7f3eb;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+.login-form h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #231a15;
+}
+
+body {
+  margin: 0;
+  font-family: "Geologica", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 496;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
+  background-color: #f6f2eb; 
+  height: 100vh;
+  color: #231a15
+}
+
+/* Список сообщений */
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+#messages li {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Форма отправки сообщений */
+#formChat {
+  display: flex;
+  background: #f6f2eb;
+  padding: 0.5rem;
+  border-top: 1px solid #ddd;
+}
+
+#input {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  margin-right: 0.5rem;
+  outline: none;
+  background: #fff;
+}
+
+#formChat button {
+  background: #d8c3aa; /* мягкий бежево-коричневый */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+  
+}
+
+#formChat button:hover {
+  background: #c6ad92;
+}
+
+/* Кнопка профиля */
+#profile {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #d8c3aa;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#profile:hover {
+  background: #c6ad92;
+}

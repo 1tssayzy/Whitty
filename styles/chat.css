@@ -1,0 +1,128 @@
+/* Общие стили */
+.logo {
+  display: block;
+  margin: 1rem auto;
+  max-width: 100px;
+}
+
+body {
+  margin: 0;
+  padding-bottom: 3.5rem; /* место под форму чата */
+  font-family: "Geologica", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 496;
+  font-style: normal;
+  font-variation-settings: "slnt" 0, "CRSV" 0, "SHRP" 0;
+  background-color: #f6f2eb;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.userProfile avatar {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;    
+}
+
+/* Список сообщений */
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Сообщения */
+#messages li {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  word-break: break-word;
+}
+
+#messages li:nth-child(odd) {
+  background: #efefef;
+}
+
+/* Форма чата */
+#formChat {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid #ddd;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+/* Поле ввода */
+#input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 2rem;
+  outline: none;
+  background: #fff;
+  font-size: 1rem;
+}
+
+/* Кнопка отправки */
+#formChat > button {
+  background: #d8c3aa;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#formChat > button:hover {
+  background: #c6ad92;
+}
+
+/* Кнопка профиля */
+#profile {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #d8c3aa;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 20;
+}
+
+#profile:hover {
+  background: #c6ad92;
+}
+
+/* Адаптив */
+@media (max-width: 600px) {
+  #input {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  #formChat > button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  #profile {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Whitty chat</title>
+    <link rel="stylesheet" href="/styles/chat.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@496&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <p>
+      <a href="http://localhost:8080/">
+        <img
+          src="/imgSite/W Font Letter-fotor-bg-remover-20250915145631.png"
+          alt="Whitty"
+          class="logo"
+        />
+      </a>
+    </p>
+    <div id="userProfile">
+      <img id="avatar" src="" alt="avatar" width="40" height="40" />
+      <span id="username"></span>
+    </div>
+    <ul id="messages"></ul>
+    <form id="formChat" action="">
+      <input id="input" autocomplete="off" placeholder="Type message..." />
+      <button>Send</button>
+    </form>
+
+    <button id="profile">Profile</button>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js" defer></script>
+    <script src="/chat/client.js" defer></script> 
+    <script>
+      document.getElementById("profile").addEventListener("click", function () {
+        window.location.href = "/profile";
+      });
+    </script>
+  </body>
+</html>

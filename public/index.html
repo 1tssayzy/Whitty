@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Whitty</title>
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geologica:wght@496&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="login-page">
+    <p>
+      <a href="http://localhost:8080/">
+        <img
+          src="/imgSite/W Font Letter-fotor-bg-remover-20250915145631.png"
+          alt="Whitty"
+          class="logo"
+        />
+      </a>
+    </p>
+    <form class="login-form" id="loginInput">
+      <h1>Welcome Back 👋</h1>
+
+      <div class="input-group">
+        <label for="username">Login</label>
+        <input type="text" id="loginL" name="login" required />
+      </div>
+
+      <div class="input-group">
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordL" name="password" required />
+      </div>
+
+      <button type="submit">Login</button>
+
+      <p class="signup-link">
+        Don't have an account? <a href="/public/register.html">Register</a>
+      </p>
+    </form>
+    <script src="/src/logic.js"></script>
+  </body>
+</html>
