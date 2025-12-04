@@ -4,14 +4,21 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:integration": "jest test/integration",
     "start": "nodemon src/server.js"
+  },
+  "jest": {
+    "verbose": true,
+    "clearMocks": true,
+    "forceExit": true
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
@@ -19,8 +26,6 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.18.0",
-    "mongoose": "^8.17.0",
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
     "redis": "^5.8.2",
@@ -29,6 +34,7 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "jest": "^30.2.0",
     "prisma": "^6.19.0"
   }
 }
