@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comments {
+  comment_id   Int       @id @default(autoincrement())
+  post_id      Int?
+  user_id      Int?
+  comment_text String?
+  created_at   DateTime? @db.Timestamp(6)
+  posts        posts?    @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction)
+  users        users?    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model followers {
+  follower_id                         Int
+  following_id                        Int
+  followed_at                         DateTime? @db.Timestamp(6)
+  users_followers_follower_idTousers  users     @relation("followers_follower_idTousers", fields: [follower_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  users_followers_following_idTousers users     @relation("followers_following_idTousers", fields: [following_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([follower_id, following_id])
+}
+
+model posts {
+  post_id        Int        @id @default(autoincrement())
+  user_id        Int?
+  caption        String?
+  likes_count    Int?       @default(0)
+  comments_count Int?       @default(0)
+  created_at     DateTime?  @db.Timestamp(6)
+  comments       comments[]
+  users          users?     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  user_id                                 Int         @id @default(autoincrement())
+  username                                String      @db.VarChar(50)
+  email                                   String?     @db.VarChar(100)
+  password                                String?     @db.VarChar(220)
+  registration_date                       DateTime?   @db.Date
+  country                                 String?     @db.VarChar(50)
+  comments                                comments[]
+  followers_followers_follower_idTousers  followers[] @relation("followers_follower_idTousers")
+  followers_followers_following_idTousers followers[] @relation("followers_following_idTousers")
+  posts                                   posts[]
+}

@@ -96,7 +96,7 @@ io.on("connection", (socket) => {
   onlineUsers.set(username,socket.id);
   
   console.log(`${username} connected`,socket.id);
-  console.log(onlineUsers.entries())
+  console.log(onlineUsers.entries());
 
   
 
