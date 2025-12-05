@@ -5,13 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "npx prisma generate && jest",
-    "test:integration": "npx prisma generate && jest test/integration",
+    "test:integration": "jest",
     "start": "nodemon src/server.js"
-  },
-  "jest": {
-    "verbose": true,
-    "clearMocks": true,
-    "forceExit": true
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,5 @@
-// test/integration/test_registration.test.js
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env.test', override: true });
 const prisma = require('../../src/database');
 const { registerUserWithTransaction } = require('../../src/services/auth.service');
 
@@ -10,7 +11,14 @@ describe('User Registration Transaction', () => {
     await prisma.comment.deleteMany();
     await prisma.post.deleteMany();
     await prisma.user.deleteMany();
-    await prisma.country.deleteMany();
+    await prisma.countrie.deleteMany();
+  });
+  describe('Complex Creation Scenario', () => {
+
+    it('DEBUG: Check DB Connection', async () => {
+        // Цей лог покаже, яку базу даних бачить тест
+        console.log('\n🔴 TEST IS USING DATABASE:', process.env.DATABASE_URL); 
+    });
   });
 
   // Отключаем Prisma после всех тестов

@@ -17,7 +17,6 @@ model User {
   country    Country?  @relation(fields: [country_id], references: [country_id])
   posts      Post[]
   comments   Comment[]
-
   
   followers Follow[] @relation("FollowingRelation") 
   following Follow[] @relation("FollowerRelation") 
