@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -8,46 +8,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model comments {
-  comment_id   Int       @id @default(autoincrement())
-  post_id      Int?
-  user_id      Int?
-  comment_text String?
-  created_at   DateTime? @db.Timestamp(6)
-  posts        posts?    @relation(fields: [post_id], references: [post_id], onDelete: NoAction, onUpdate: NoAction)
-  users        users?    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+model User {
+  user_id    Int       @id @default(autoincrement())
+  username   String    @unique @db.VarChar(50)
+  email      String?   @db.VarChar(100)
+  password   String?   @db.VarChar(220)
+  country_id Int?
+  country    Country?  @relation(fields: [country_id], references: [country_id])
+  posts      Post[]
+  comments   Comment[]
+
+  
+  followers Follow[] @relation("FollowingRelation") 
+  following Follow[] @relation("FollowerRelation") 
+  @@map("users")
 }
 
-model followers {
-  follower_id                         Int
-  following_id                        Int
-  followed_at                         DateTime? @db.Timestamp(6)
-  users_followers_follower_idTousers  users     @relation("followers_follower_idTousers", fields: [follower_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  users_followers_following_idTousers users     @relation("followers_following_idTousers", fields: [following_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@id([follower_id, following_id])
+model Country {
+  country_id   Int    @id @default(autoincrement())
+  country_name String @unique
+  users        User[]
+  @@map("countries")
 }
 
-model posts {
-  post_id        Int        @id @default(autoincrement())
+model Post {
+  post_id        Int       @id @default(autoincrement())
   user_id        Int?
   caption        String?
-  likes_count    Int?       @default(0)
-  comments_count Int?       @default(0)
-  created_at     DateTime?  @db.Timestamp(6)
-  comments       comments[]
-  users          users?     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  likes_count    Int?      @default(0)
+  comments_count Int?      @default(0)
+  created_at     DateTime? @db.Timestamp(6)
+  user           User?     @relation(fields: [user_id], references: [user_id])
+  comments       Comment[]
+  @@map("posts")
 }
 
-model users {
-  user_id                                 Int         @id @default(autoincrement())
-  username                                String      @db.VarChar(50)
-  email                                   String?     @db.VarChar(100)
-  password                                String?     @db.VarChar(220)
-  registration_date                       DateTime?   @db.Date
-  country                                 String?     @db.VarChar(50)
-  comments                                comments[]
-  followers_followers_follower_idTousers  followers[] @relation("followers_follower_idTousers")
-  followers_followers_following_idTousers followers[] @relation("followers_following_idTousers")
-  posts                                   posts[]
+model Comment {
+  comment_id   Int       @id @default(autoincrement())
+  post_id      Int
+  user_id      Int
+  comment_text String
+  created_at   DateTime? @db.Timestamp(6)
+  post         Post      @relation(fields: [post_id], references: [post_id])
+  user         User      @relation(fields: [user_id], references: [user_id])
+  @@map("comments")
+}
+
+model Follow {
+  follower_id  Int
+  following_id Int
+  followed_at  DateTime?
+
+  // Связи должны указывать на User с правильными именами
+  follower  User @relation("FollowerRelation", fields: [follower_id], references: [user_id])
+  following User @relation("FollowingRelation", fields: [following_id], references: [user_id])
+
+  @@id([follower_id, following_id])
+  @@map("followers")
 }

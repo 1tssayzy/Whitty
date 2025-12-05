@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # База даних PostgreSQL
   postgres:
     image: postgres:15-alpine
     container_name: whitty_db
@@ -14,8 +13,6 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  # Інтерфейс для перегляду бази даних (як MongoDB Compass, але для SQL)
   pgadmin:
     image: dpage/pgadmin4
     container_name: whitty_pgadmin
