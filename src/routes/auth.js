@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const prisma = require("../repositories/index");
 const router = express.Router();
 const path = require("path");
+const { requireAuth } = require("../middleware/authMiddleware");
 
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -26,7 +27,7 @@ router.post("/register", async (req, res) => {
       },
     })
     const token = jwt.sign(
-      { username: newUser.username, id: newUser._id },
+      { username: newUser.username, id: newUser.user_id },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -63,7 +64,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
     const token = jwt.sign(
-      { username: foundUser.username, id: foundUser._id },
+      { username: foundUser.username, id: foundUser.user_id },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -79,5 +80,33 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.get("/me", requireAuth, async (req, res) => {
+  try { 
+    const user = await prisma.user.findUnique({
+      where: { 
+        user_id: req.user.id  
+      },
+      
+      select: {
+        user_id: true,       
+        username: true,
+        avatar: true,
+        country: true,
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Get Me Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 
 module.exports = router;

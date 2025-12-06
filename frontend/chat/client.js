@@ -10,12 +10,12 @@ socket.on("connect", () => {
 });
 socket.on("user_info", (data) => {
   document.getElementById("username").textContent = data.username;
-  document.getElementById("avatar").src = data.avatar || "/avatars/default.png";
+  document.getElementById("avatar").src = data.avatar || "/imgSite/default.jpg";
 });
 socket.on("new_message", (data) => {
   const messageElement = document.createElement("li");
   const avatarImg = document.createElement("img");
-  avatarImg.src = data.avatar || "/avatars/default.png";
+  avatarImg.src = data.avatar || "/imgSite/default.jpg";
   avatarImg.alt = "User Avatar";
   avatarImg.classList.add("avatar");
   avatarImg.width = 30;

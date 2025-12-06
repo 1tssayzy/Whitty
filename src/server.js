@@ -18,7 +18,7 @@ const { requireAuth } = require("./middleware/authMiddleware");
  
 
 dotenv.config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 const app = express();
 const server = createServer(app);
@@ -34,8 +34,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "../frontend"))); 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads"))); 
- app.use(express.static(path.join(__dirname, "../js"))); 
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use(express.static(path.join(__dirname, "../js"))); 
+
 
 
 app.use("/auth", authRoutes);
@@ -84,7 +85,7 @@ io.use(async (socket, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     const user = await prisma.user.findUnique({
-        where: { id: decoded.id } 
+        where: { user_id: decoded.id } 
     });
 
     if (user) {
