@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
       { username: newUser.username, id: newUser.user_id },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "3h",
       }
     );
 
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
       { username: foundUser.username, id: foundUser.user_id },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "3h",
       }
     );
     res.cookie("jwt", token, {
