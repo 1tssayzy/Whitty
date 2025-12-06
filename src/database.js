@@ -1,6 +1,5 @@
 
-const { PrismaClient } = require('./generated/prisma'); // путь к твоему клиенту Prisma
-
+const { PrismaClient } = require('./generated/prisma'); 
 let prisma;
 
 if (process.env.NODE_ENV === 'production') {

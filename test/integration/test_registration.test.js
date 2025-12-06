@@ -5,14 +5,6 @@ const { registerUserWithTransaction } = require('../../src/services/auth.service
 
 describe('User Registration Transaction', () => {
 
-  // Очищаем таблицы перед каждым тестом
-  beforeEach(async () => {
-    await prisma.follow.deleteMany();
-    await prisma.comment.deleteMany();
-    await prisma.post.deleteMany();
-    await prisma.user.deleteMany();
-    await prisma.countrie.deleteMany();
-  });
   describe('Complex Creation Scenario', () => {
 
     it('DEBUG: Check DB Connection', async () => {

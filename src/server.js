@@ -9,13 +9,13 @@ const { createServer } = require("http");
 const jwt = require("jsonwebtoken");
 
 // Models
-const User = require("../models/user");
+const User = require("./models/user");
 const { connectDB, redisConnect } = require("./database");
 const auth = require("../routes/auth");
-const { requireAuth } = require("../middleware/authMiddleware");
+const { requireAuth } = require("./middleware/authMiddleware");
 const avatarRouter = require("../routes/upload.router");
 const avatarSyncRouter = require("../routes/avatar.router");
-const user = require("../models/user");
+const user = require("./models/user");
 
 // Load environment variables
 const env = dotenv.config();

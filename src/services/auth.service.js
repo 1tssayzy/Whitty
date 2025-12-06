@@ -1,15 +1,13 @@
-// src/services/auth.service.js
 const prisma = require("../database");
 const bcrypt = require("bcrypt");
 
 async function registerUserWithTransaction(login, password, countryName = 'Unknown') {
   return prisma.$transaction(async (tx) => {
 
-    // Проверяем существующего пользователя
     const foundUser = await tx.user.findUnique({ where: { username: login } });
     if (foundUser) throw new Error("User Already Exists");
 
-    // Ищем страну или создаём новую
+
     let country = await tx.country.findUnique({ where: { country_name: countryName } });
     if (!country) {
       country = await tx.country.create({
@@ -17,10 +15,9 @@ async function registerUserWithTransaction(login, password, countryName = 'Unkno
       });
     }
 
-    // Хэшируем пароль
+    // Hashing
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Создаём пользователя
     const newUser = await tx.user.create({
       data: {
         username: login,

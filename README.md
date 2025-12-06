@@ -40,32 +40,7 @@ This project implements the following requirements:
 
 ---
 
-## 📂 Project Structure
 
-```text
-Whitty/
-├── prisma/
-│   └── schema.prisma        # Database schema definition
-├── scripts/
-│   └── jest-setup.js        # Test database initialization script
-├── src/
-│   ├── routes/              # API Routes
-│   │   ├── auth.js          # Authentication endpoints
-│   │   ├── social.js        # Following endpoints (Locking)
-│   │   └── analytics.js     # Analytical endpoints (Complex Queries)
-│   ├── services/            # Business Logic
-│   │   ├── auth.service.js  # Transactional logic
-│   │   ├── follow.service.js# Locking logic
-│   │   └── analytics.service.js # SQL Queries
-│   ├── database.js          # Prisma Client instance
-│   └── server.js            # Entry point
-├── test/
-│   └── integration/         # Integration tests
-├── .env                     # Environment variables (Main)
-├── .env.test                # Environment variables (Test)
-├── docker-compose.yml       # Docker configuration
-└── README.md                # Documentation
-```
 <span style="font-size : 25px">**🚀 Getting Started :**</span>
  
 1. Prerequisites
@@ -108,5 +83,45 @@ npm start
 
 The project uses a dedicated test database **(whitty_test)** to ensure data isolation. The test script automatically creates the database schema before running tests.
 
-Lets
+**Lets start testing our app :**
 
+## 1. U need to verify that u have installed Jest.js
+How we can do it ? Simple 
+```
+npm jest --version
+```
+You will see something like :
+```
+itssayzy@Ivans-MacBook-Air Whitty % npm jest --version
+11.4.2
+```
+**Then run this command :**
+```
+npm run test:integration
+```
+## 📂 Project Structure
+
+```text
+Whitty/
+├── prisma/
+│   └── schema.prisma        # Database schema definition
+├── scripts/
+│   └── jest-setup.js        # Test database initialization script
+├── src/
+│   ├── routes/              # API Routes
+│   │   ├── auth.js          # Authentication endpoints
+│   │   ├── social.js        # Following endpoints (Locking)
+│   │   └── analytics.js     # Analytical endpoints (Complex Queries)
+│   ├── services/            # Business Logic
+│   │   ├── auth.service.js  # Transactional logic
+│   │   ├── follow.service.js# Locking logic
+│   │   └── analytics.service.js # SQL Queries
+│   ├── database.js          # Prisma Client instance
+│   └── server.js            # Entry point
+├── test/
+│   └── integration/         # Integration tests
+├── .env                     # Environment variables (Main)
+├── .env.test                # Environment variables (Test)
+├── docker-compose.yml       # Docker configuration
+└── README.md                # Documentation
+```

@@ -2,3 +2,4 @@
 node_modules/
 uploads/
 /src/generated/prisma
+.env.test
