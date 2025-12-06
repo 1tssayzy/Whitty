@@ -1,1 +1,1 @@
-const prisma = 
+const prisma = require("../repositories");

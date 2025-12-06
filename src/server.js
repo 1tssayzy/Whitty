@@ -7,11 +7,10 @@ const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
 const jwt = require("jsonwebtoken");
+const prisma = require("./repositories/index");
 
-// Models
-const User = require("./models/user");
-const { connectDB, redisConnect } = require("./database");
-const auth = require("../routes/auth");
+// Import routes
+const authRoutes = require("../routes/auth");
 const { requireAuth } = require("./middleware/authMiddleware");
 const avatarRouter = require("../routes/upload.router");
 const avatarSyncRouter = require("../routes/avatar.router");
@@ -24,6 +23,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
+    origin: "*",
     credentials: true,
   },
 });
@@ -33,8 +33,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //routing setup
+app.use(express.static(path.join(__dirname, "../frontend")));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/auth", auth);
-app.use("/styles", express.static(path.join(__dirname, "../styles")));
+app.use("/styles", express.static(path.join(__dirname, "../style")));
 app.use("/src", express.static(path.join(__dirname, "../src")));
 app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use("/chat", express.static(path.join(__dirname, "../chat")));
@@ -136,5 +138,4 @@ io.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-  connectDB();
 });

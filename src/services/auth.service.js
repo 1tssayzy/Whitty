@@ -1,4 +1,4 @@
-const prisma = require("../database");
+const prisma = require("../repositories/index");
 const bcrypt = require("bcrypt");
 
 async function registerUserWithTransaction(login, password, countryName = 'Unknown') {
