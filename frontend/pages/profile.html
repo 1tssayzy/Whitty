@@ -78,6 +78,28 @@
       </div>
     </div>
 
+    <button id="openPostModalBtn" style="margin-top: 20px; padding: 10px 20px; cursor: pointer;">
+    ➕ Create New Post
+</button>
+
+<div id="postModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-btn" id="closePostModalBtn">&times;</span>
+        <h2>Create a Post</h2>
+        
+        <form id="createPostForm">
+            <textarea id="postContent" name="content" placeholder="What's on your mind?" rows="4"></textarea>
+            
+            <div class="file-input-wrapper">
+                <label for="postImage">Attach Image:</label>
+                <input type="file" id="postImage" name="image" accept="image/*">
+            </div>
+
+            <button type="submit" class="submit-btn">Publish Post</button>
+        </form>
+    </div>
+</div>
+
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
     <script src="/chat/client.js"></script>
     <script>
@@ -96,7 +118,6 @@
         document.getElementById("username").textContent = data.username;
       });
 
-      // модалка
       const modal = document.getElementById("avatar-modal");
       const openBtn = document.getElementById("set-avatar-btn");
       const closeBtn = document.getElementById("close-modal");
@@ -120,7 +141,7 @@
           }
           const avatarPath = await res.text();
           profilePic.src = avatarPath;
-          modal.classList.add("hidden"); // закрыть после успеха
+          modal.classList.add("hidden");
         } catch (err) {
           console.error("❌ Ошибка загрузки:", err);
           alert("Ошибка загрузки: " + err.message);

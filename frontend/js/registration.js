@@ -15,7 +15,6 @@ form.addEventListener("submit", async (e) => {
         body: JSON.stringify(data),
     })
     const result = await response.json();
-    console.log("ВІДПОВІДЬ СЕРВЕРА:", result);
     if (result.redirect) {
         window.location.href = result.redirect;
     } else {

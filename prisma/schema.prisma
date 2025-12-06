@@ -35,6 +35,8 @@ model Post {
   post_id        Int       @id @default(autoincrement())
   user_id        Int?
   caption        String?
+  imageUrl       String?   
+  content        String?
   likes_count    Int?      @default(0)
   comments_count Int?      @default(0)
   created_at     DateTime? @db.Timestamp(6)

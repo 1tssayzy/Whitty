@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
   </head>
-  <body class="login-page">
+  <body class="feed-page">
     <p>
       <a href="http://localhost:8080/">
         <img
@@ -22,28 +22,6 @@
         />
       </a>
     </p>
-    <form class="login-form" id="loginInput">
-      <h1>Welcome Back 👋</h1>
-
-      <div class="input-group">
-        <label for="username">Login</label>
-        <input type="text" id="username" name="username" required />
-      </div>
-
-      <div class="input-group">
-        <label for="passwordInput">Password</label>
-        <input type="password" id="password" name="password" required />
-      </div>
-
-      <button type="submit">Login</button>
-      <p class="signup-link">
-        Don't have an account? <a href="/register">Register</a>
-      </p>
-    </form>
-    <form action="/feed">
-      <input type="submit" value="Go to feed" />
-    </form>
-    
     <script src="/js/logic.js"></script>
   </body>
 </html>

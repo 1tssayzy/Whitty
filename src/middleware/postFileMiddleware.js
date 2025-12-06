@@ -2,16 +2,19 @@
 const multer = require("multer");
 const path = require("path");
 
+
 const storage = multer.diskStorage({
-  destination(req, file, cb) {    
-    cb(null, path.join(__dirname, "../../uploads/avatars"));
+  destination(req, file, cb) {
+    cb(null, path.join(__dirname, "../../uploads/posts"));
   },
   filename(req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname); 
   },
 });
 
-const types = ["image/png", "image/jpeg", "image/jpg"];
+
+const types = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+
 const fileFilter = (req, file, cb) => {
   if (types.includes(file.mimetype)) {
     cb(null, true);

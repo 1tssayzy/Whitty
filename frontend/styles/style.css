@@ -115,3 +115,59 @@ body {
 #profile:hover {
   background: #c6ad92;
 }
+/* Затемненный фон */
+    .modal-overlay {
+        display: none; /* Скрыто по умолчанию */
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный черный */
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Белое окно по центру */
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 400px;
+        max-width: 90%;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Крестик закрытия */
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #aaa;
+    }
+    .close-btn:hover { color: #000; }
+
+    /* Элементы формы */
+    #postContent {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .submit-btn:hover { background-color: #0056b3; }
