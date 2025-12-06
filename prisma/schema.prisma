@@ -11,6 +11,7 @@ datasource db {
 model User {
   user_id    Int       @id @default(autoincrement())
   username   String    @unique @db.VarChar(50)
+  avatar     String   @default ("/uploads/avatars/default.png")
   email      String?   @db.VarChar(100)
   password   String?   @db.VarChar(220)
   country_id Int?

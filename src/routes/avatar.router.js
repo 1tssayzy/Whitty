@@ -10,14 +10,16 @@ const { requireAuth } = require("../middleware/authMiddleware");
 
 router.get("/me", requireAuth,  async(req, res) => {
      try {
-        const userID = req.user.id;
-        const currentUser = await user.findById(userID);
+        const username = req.username;
+        const currentUser = await prisma.user.findUnique({
+          where:{username: username},
+     });
         if (!currentUser) {
             return res.status(404).json({ message: "User not found" });
         }
         res.json({ 
             avatar: currentUser.avatar,
-            login: currentUser.login
+            username: currentUser.username,
          });
      } catch (e) {
        res.status(500).json({ message: "Fetch user error"})

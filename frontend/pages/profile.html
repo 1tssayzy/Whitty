@@ -46,7 +46,7 @@
     <p>
       <a href="http://localhost:8080/">
         <img
-          src="/imgSite/W Font Letter-fotor-bg-remover-20250915145631.png"
+          src="/uploads/imgSite/W Font Letter-fotor-bg-remover-20250915145631.png"
           alt="Whitty"
           class="logo"
         />
@@ -60,7 +60,7 @@
       <button id="chat-button">Start chatting</button>
 
       <!-- аватарка -->
-      <img id="profile-pic" src="../uploads/imgSite/default.png" alt="Profile Picture" width="300" />
+      <img id="profile-pic" src="/uploads/imgSite/default.jpg" alt="Profile Picture" width="300" />
       
       <!-- кнопка -->
       <button id="set-avatar-btn">Set avatar</button>
@@ -129,7 +129,7 @@
     </script>
 
     <script type="module">
-      import { getCurrentUser } from "/src/api.js";
+      import { getCurrentUser } from "/js/api.js";
       async function loadCurrentAvatar() {
         try {
           const user = await getCurrentUser();

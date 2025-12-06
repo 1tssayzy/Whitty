@@ -6,8 +6,8 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    login: loginField.value,
-    password: passwordField.value,
+    username: username.value,
+    password: password.value,
   };
 
   try {
