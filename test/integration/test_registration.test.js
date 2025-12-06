@@ -1,19 +1,28 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: '.env.test', override: true });
-const prisma = require('../../src/database');
+const prisma = require('../../src/repositories/index');
 const { registerUserWithTransaction } = require('../../src/services/auth.service');
 
 describe('User Registration Transaction', () => {
+  beforeEach(async () => {
+    await prisma.country.deleteMany(); 
+    await prisma.user.deleteMany();
+    await prisma.post.deleteMany();
+    await prisma.comment.deleteMany();
+  });
 
+ afterAll(async()=>{
+   await prisma.$disconnect();
+ })
   describe('Complex Creation Scenario', () => {
 
-    it('DEBUG: Check DB Connection', async () => {
-        // Цей лог покаже, яку базу даних бачить тест
+    it(' Check DB Connection', async () => {
+        
         console.log('\n🔴 TEST IS USING DATABASE:', process.env.DATABASE_URL); 
     });
   });
 
-  // Отключаем Prisma после всех тестов
+
   afterAll(async () => {
     await prisma.$disconnect();
   });
@@ -29,15 +38,12 @@ describe('User Registration Transaction', () => {
   });
 
   it('should fail registration and rollback if user already exists', async () => {
-    // Регистрируем пользователя первый раз
     await registerUserWithTransaction('vanya', 'password123', 'Ukraine');
 
-    // Попытка зарегистрировать такого же пользователя должна упасть
     await expect(registerUserWithTransaction('vanya', 'password123', 'Ukraine'))
       .rejects
       .toThrow('User Already Exists');
 
-    // Проверяем, что не создалась новая страна
     const countries = await prisma.country.findMany({ where: { country_name: 'Ukraine' } });
     expect(countries.length).toBe(1);
   });
