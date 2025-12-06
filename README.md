@@ -105,7 +105,11 @@ npm run test:integration
 Whitty/
 ├── prisma/
 │   └── schema.prisma        # Database schema definition
-├── scripts/
+├── docs/
+│   └──  architecture.md    # Database schema definition
+│   └──  queries.md         # SQL queries
+│   └──  schema.md          # Describe scheme DB 
+├── frontend/
 │   └── jest-setup.js        # Test database initialization script
 ├── src/
 │   ├── routes/              # API Routes
