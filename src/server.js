@@ -8,13 +8,12 @@ const { Server } = require("socket.io");
 const { createServer } = require("http");
 const jwt = require("jsonwebtoken");
 
-// --- ЗМІНА 1: Імпорт Prisma замість Mongoose ---
-// Імпортуємо налаштований клієнт Prisma
+
 const prisma = require("./repositories/index"); 
 
 // Імпорт роутів
-const authRoutes = require("./routes/auth"); // Переконайтеся, що файл там є
-const avatarRouter = require("./routes/upload.router"); // Перевірте шлях
+const authRoutes = require("./routes/auth"); 
+const avatarRouter = require("./routes/upload.router");
 const { requireAuth } = require("./middleware/authMiddleware");
  
 
@@ -36,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "../frontend"))); 
 app.use("/uploads", express.static(path.join(__dirname, "../uploads"))); 
+ app.use(express.static(path.join(__dirname, "../js"))); 
 
 
 app.use("/auth", authRoutes);

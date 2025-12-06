@@ -5,7 +5,7 @@ const password = document.getElementById("password");
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = {
-        login: login.value,
+        username: username.value,
         password: password.value,
     };
     try {
@@ -15,6 +15,7 @@ form.addEventListener("submit", async (e) => {
         body: JSON.stringify(data),
     })
     const result = await response.json();
+    console.log("ВІДПОВІДЬ СЕРВЕРА:", result);
     if (result.redirect) {
         window.location.href = result.redirect;
     } else {

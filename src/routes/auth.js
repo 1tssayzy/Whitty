@@ -6,19 +6,27 @@ const router = express.Router();
 const path = require("path");
 
 router.post("/register", async (req, res) => {
-  const { login, password } = req.body;
+  const { username, password } = req.body;
 
   try {
-    const foundUser = await User.findOne({ login });
+    const foundUser = await prisma.user.findUnique({
+      where: { 
+        username: username,
+       },
+     });
     if (foundUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ login, password: hashedPassword });
-    await newUser.save();
+    const newUser = await prisma.user.create({
+      data: {
+        username: username,
+        password: hashedPassword,
+      },
+    })
     const token = jwt.sign(
-      { username: newUser.login, id: newUser._id },
+      { username: newUser.username, id: newUser._id },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -38,10 +46,14 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { login, password } = req.body;
+  const { username, password } = req.body;
 
   try {
-    const foundUser = await User.findOne({ login });
+    const foundUser = await prisma.user.findUnique({ 
+      where:{
+        username: username,
+      },
+     });
 
     if (!foundUser) {
       return res.status(400).json({ message: "User not found" });
@@ -51,7 +63,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
     const token = jwt.sign(
-      { username: foundUser.login, id: foundUser._id },
+      { username: foundUser.username, id: foundUser._id },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
