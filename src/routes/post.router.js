@@ -29,7 +29,7 @@ router.post(
   async (req, res) => {
     let imgUrlPath = null;
    if(req.file){
-    imgUrlPath = `/uploads/posts/${req.file.fieldname}`;
+    imgUrlPath = `/uploads/posts/${req.file.filename}`;
    }
 
     try {
@@ -50,3 +50,5 @@ router.post(
     }
   }
 );
+
+module.exports =  router;
