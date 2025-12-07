@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <style>
-      /* модалка */
+      
       .modal {
         position: fixed;
         top: 0; left: 0;
@@ -59,14 +59,14 @@
       <button id="logout-button">Logout</button>
       <button id="chat-button">Start chatting</button>
 
-      <!-- аватарка -->
+     
       <img id="profile-pic" src="/uploads/imgSite/default.jpg" alt="Profile Picture" width="300" />
       
-      <!-- кнопка -->
+    
       <button id="set-avatar-btn">Set avatar</button>
     </div>
 
-    <!-- модалка -->
+   
     <div id="avatar-modal" class="modal hidden">
       <div class="modal-content">
         <span id="close-modal">&times;</span>
@@ -87,7 +87,7 @@
         <span class="close-btn" id="closePostModalBtn">&times;</span>
         <h2>Create a Post</h2>
         
-        <form id="createPostForm">
+        <form id="createPostForm" action="">
             <textarea id="postContent" name="content" placeholder="What's on your mind?" rows="4"></textarea>
             
             <div class="file-input-wrapper">
@@ -101,7 +101,8 @@
 </div>
 
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-    <script src="/chat/client.js"></script>
+    <script src="/chat/logic.chat.js"></script>
+    <script src="/js/post.js"></script>
     <script>
       document
         .getElementById("logout-button")
@@ -118,18 +119,18 @@
         document.getElementById("username").textContent = data.username;
       });
 
-      const modal = document.getElementById("avatar-modal");
-      const openBtn = document.getElementById("set-avatar-btn");
-      const closeBtn = document.getElementById("close-modal");
+      const modalAvatar = document.getElementById("avatar-modal");
+      const openBtnAvatar = document.getElementById("set-avatar-btn");
+      const closeBtnAvatar = document.getElementById("close-modal");
       const profilePic = document.getElementById("profile-pic");
-      const form = document.getElementById("avatarForm");
+      const formAvatar = document.getElementById("avatarForm");
 
-      openBtn.addEventListener("click", () => modal.classList.remove("hidden"));
-      closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+      openBtnAvatar.addEventListener("click", () => modalAvatar.classList.remove("hidden"));
+      closeBtnAvatar.addEventListener("click", () => modalAvatar.classList.add("hidden"));
 
-      form.addEventListener("submit", async (e) => {
+      formAvatar.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const formData = new FormData(form);
+        const formData = new FormData(formAvatar);
         try {
           const res = await fetch("/api/upload-avatar", {
             method: "POST",
@@ -163,5 +164,6 @@
       }
       loadCurrentAvatar();
     </script>
+    
   </body>
 </html>

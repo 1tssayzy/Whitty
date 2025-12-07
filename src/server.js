@@ -15,6 +15,7 @@ const prisma = require("./repositories/index");
 const authRoutes = require("./routes/auth"); 
 const avatarRouter = require("./routes/upload.router");
 const { requireAuth } = require("./middleware/authMiddleware");
+const postRouter = require("../src/routes/post.router")
  
 
 dotenv.config();
@@ -38,7 +39,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(express.static(path.join(__dirname, "../js"))); 
 
 
-
+app.use("/api", postRouter)
 app.use("/auth", authRoutes);
 app.use("/api", avatarRouter);
 

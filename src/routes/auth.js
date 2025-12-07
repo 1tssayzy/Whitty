@@ -123,6 +123,7 @@ router.get("/post", async (req, res) => {
     alert(e);
   }
 });
+
 router.post(
   "/post",
   requireAuth,
