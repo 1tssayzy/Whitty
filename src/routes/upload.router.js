@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
-const prisma = require("../repositories/index"); // Ваш налаштований Prisma Client
-const fileMiddleware = require("../middleware/fileMiddleware"); // Мультер
+const prisma = require("../repositories/index"); 
+const fileMiddleware = require("../middleware/fileMiddleware");
 const { requireAuth } = require("../middleware/authMiddleware");
 const fs = require("fs");
 const path = require("path");
@@ -18,12 +18,11 @@ router.get("/countries", async (req, res) => {
   }
 });
 
-// 2. ОНОВИТИ КРАЇНУ ЮЗЕРА
+
 router.post("/update-country", requireAuth, async (req, res) => {
   const { country_id } = req.body;
 
   try {
-    // Оновлюємо юзера
     const updatedUser = await prisma.user.update({
       where: { user_id: req.user.id }, 
       data: { 

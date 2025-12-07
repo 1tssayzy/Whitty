@@ -9,7 +9,7 @@ const postFileMiddleware = require("../middleware/postFileMiddleware");
 router.get("/countries", async (req, res) => {
   try {
     const countries = await prisma.country.findMany({
-      orderBy: { country_name: 'asc' } // Сортуємо за алфавітом
+      orderBy: { country_name: 'asc' } 
     });
     res.json(countries);
   } catch (e) {
@@ -23,11 +23,11 @@ router.post("/update-country", requireAuth, async (req, res) => {
 
   try {
     const updatedUser = await prisma.user.update({
-      where: { user_id: req.user.id }, // ID з токена
+      where: { user_id: req.user.id }, 
       data: { 
-        country_id: Number(country_id) // Перетворюємо рядок "5" у число 5
+        country_id: Number(country_id) 
       },
-      include: { country: true } // Повертаємо оновлені дані разом з назвою країни
+      include: { country: true } 
     });
 
     res.json({ message: "Country updated!", user: updatedUser });
@@ -36,3 +36,5 @@ router.post("/update-country", requireAuth, async (req, res) => {
     res.status(500).json({ message: "Failed to update country" });
   }
 });
+
+module.exports = router ;

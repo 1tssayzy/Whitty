@@ -25,8 +25,6 @@ async function registerUserWithTransaction(login, password, countryName = 'Unkno
         country_id: country.country_id,
       },
     });
-
-    // Возвращаем пользователя с данными страны
     return tx.user.findUnique({
       where: { user_id: newUser.user_id },
       include: { country: true },

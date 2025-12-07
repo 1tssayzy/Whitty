@@ -158,7 +158,7 @@ saveCountryBtn.addEventListener('click', async () => {
     if (!selectedId) return alert("Please select a country!");
 
     try {
-        const res = await fetch('/auth/update-country', {
+        const res = await fetch('/api/update-country', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ country_id: selectedId })
