@@ -6,7 +6,7 @@ This project was developed as a coursework assignment.
 
 ---
 
-## <span style="font-size : 40px">🛠</span> 🛠 Technology Stack
+## <span style="font-size : 40px">🛠</span>  Technology Stack
 
 * **Runtime:** [Node.js](https://nodejs.org/en)
 * **Framework:** [Express.js](https://expressjs.com)
@@ -51,31 +51,32 @@ This project implements the following requirements:
 
 2. Clone and Install
 
-```
+
 2.1 
-git clone https://github.com/1tssayzy/Whitty.git
-2.2 open clonned repo folder
+git clone [Whitty](https://github.com/1tssayzy/Whitty.git)
+```
+2.2 open cloned repo folder
 cd Whitty
 2.3 download all dependencies
 npm install
 ```
-3. Enviroment setup 
+3. Environment setup 
 
 **The project comes with a docker-compose configuration for PostgreSQL.**
 
 ```
-docker compose -d
+docker compose up -d postgres
 ```
 You need to create (.env) file based on your docker config:
 
 ```
 DATABASE_URL="postgresql://{login}:{password}@localhost:{own_port}/{db_name}?schema=public"
 ```
-After some set-ups you need to push your db throw prisma 
+After some set-ups you need to push your db using prisma 
 ```
-npx prisma db push
+npx prisma migrate dev
 ```
-After all this manipulations you finally can engine project 
+After all this steps you finally can start the project 
 ```
 npm start
 ```
@@ -88,11 +89,11 @@ The project uses a dedicated test database **(whitty_test)** to ensure data isol
 ## 1. U need to verify that u have installed Jest.js
 How we can do it ? Simple 
 ```
-npm jest --version
+npx jest --version
 ```
 You will see something like :
 ```
-itssayzy@Ivans-MacBook-Air Whitty % npm jest --version
+itssayzy@Ivans-MacBook-Air Whitty % npx jest --version
 11.4.2
 ```
 **Then run this command :**
@@ -103,29 +104,65 @@ npm run test:integration
 
 ```text
 Whitty/
-├── prisma/
-│   └── schema.prisma        # Database schema definition
-├── docs/
-│   └──  architecture.md    # Database schema definition
-│   └──  queries.md         # SQL queries
-│   └──  schema.md          # Describe scheme DB 
-├── frontend/
-│   └── jest-setup.js        # Test database initialization script
-├── src/
-│   ├── routes/              # API Routes
-│   │   ├── auth.js          # Authentication endpoints
-│   │   ├── social.js        # Following endpoints (Locking)
-│   │   └── analytics.js     # Analytical endpoints (Complex Queries)
-│   ├── services/            # Business Logic
-│   │   ├── auth.service.js  # Transactional logic
-│   │   ├── follow.service.js# Locking logic
-│   │   └── analytics.service.js # SQL Queries
-│   ├── database.js          # Prisma Client instance
-│   └── server.js            # Entry point
-├── test/
-│   └── integration/         # Integration tests
-├── .env                     # Environment variables (Main)
-├── .env.test                # Environment variables (Test)
-├── docker-compose.yml       # Docker configuration
-└── README.md                # Documentation
+│
+├── .env                    # (ports,db connect ...etc)
+├── .env.test               # for test files fake DB (second DB for tests)
+├── .gitignore              # 
+├── package.json            # 
+├── README.md               # Describe my proj (how to install and setup)
+│
+├── docs/                   # my documentation
+│   ├── queries.md          # Examples of SQL queries (from easy to hard)
+│   └── schema.md           # this describe schema DB
+│
+├── prisma/                 # ORM
+│   ├── schema.prisma       # Models (User,Post,Comment, ... etc)
+│   └── migrations/         # Migrations(History of some changes in DB)
+│
+├── src/                    # Backend   
+│   ├── server.js           # server side of backend this file make our prod work
+│   │
+│   ├── generated/          # its auto-gen file from prisma
+│   │   └── prisma/         
+│   │
+│   ├── middleware/         # its some verify files to (verify something)
+│   │   ├── authMiddleware.js      #  verify JWT 
+│   │   └── postFileMiddleware.js  # upload image for post with Multer
+│   │
+│   ├── repositories/       # connect to db 
+│   │   └── index.js        # prisma client
+│   │
+│   └── routes/             # routes (api)
+│       ├── auth.js         # registration, login, /me(profile_info), countries
+│       ├── post.router.js  # posts, likes, comments (/api)
+│       └── upload.router.js # upload avatars
+│
+├── frontend/               # Frontend
+│   ├── public/             # Public pages (u can direct here if u dont auth)
+│   │   ├── login.html      # page for login
+│   │   ├── register.html.  # page for register
+│   │   └── feed.html       # page for feed
+│   │
+│   ├── pages/              # Secured pages(need auth for direct here)
+│   │   ├── profile.html
+│   │   └── chat.html
+│   │
+│   ├── styles/             # Style css
+│   │   └── style.css
+│   │
+│   └── js/                 # Frontend js
+│       ├── api.js          # func getCurrentUser();
+│       ├── feed.js         # feed,likes,comments logic
+│       ├── post.js         # make post
+│       └── chat/
+│           └── logic.chat.js # chat's logic
+│
+├── uploads/                # Storage
+│   ├── avatars/            # user's avatar_img
+│   ├── posts/              # post's img
+│   └── imgSite/            # Logo and some default pic
+│
+└── test/                   # Test
+    └── integration/
+        ├── test_Whitty.test.js # Test functional side of Whitty
 ```

@@ -68,6 +68,8 @@ ORDER BY p.created_at DESC
 LIMIT 20;
 ```
 9. Feed (only my following)
+   
+   Бізнес-питання: Як отримати пости лише від тих людей, на кого підписаний конкретний користувач (наприклад, ID = 1), відсортовані за новизною?
 ```
 SELECT 
     p.*, 
@@ -81,28 +83,91 @@ WHERE p.user_id IN (
 )
 ORDER BY p.created_at DESC;
 ```
+
+Пояснення:
+
+Вибірка даних поста та імені автора.
+
+Фільтрація WHERE IN: вибираємо пости тільки тих авторів, чиї ID знаходяться у списку підписок (following_id) користувача з ID 1.
+
+Сортування DESC (свіжі пости зверху).
+
+
+Приклад виводу: 
+                
+                | post_id | caption | author | likes_count | created_at | 
+                |---------|------------------|-------------|-------------|
+                | 105 | My new car! | elon_musk | 3420 | 2024-02-10 14:30:00 | 
+                | 102 | Coding vibes... | tech_guy | 12 | 2024-02-10 12:00:00 |
 10. Top activity users by posts 
+
+Бізнес-питання: Хто є нашими топ-авторами на основі сумарної кількості лайків, які вони отримали на всіх своїх постах?
 ```
 SELECT 
-    u.username, 
-    COUNT(p.post_id) as total_posts 
-FROM "users" u
-LEFT JOIN "posts" p ON u.user_id = p.user_id
+    u.username,
+    COUNT(p.post_id) as total_posts,
+    SUM(p.likes_count) as total_likes_received
+FROM users u
+JOIN posts p ON u.user_id = p.user_id
 GROUP BY u.user_id, u.username
-ORDER BY total_posts DESC
-LIMIT 10;
+ORDER BY total_likes_received DESC
+LIMIT 5;
 ```
-11. Analytic for countries (Where is the most users ?)
-```
-SQL
+
+Пояснення:
+
+JOIN таблиць користувачів та постів.
+
+Агрегація COUNT(p.post_id): скільки всього постів зробив юзер.
+
+Агрегація SUM(p.likes_count): сума всіх лайків з усіх постів цього юзера.
+
+Сортування за загальною популярністю.
+
+Приклад виводу: 
+
+
+                | username | total_posts | total_likes_received | 
+                |-------------|-------------|------------| 
+                | kim_k       | 120         | 50400     | 
+                | travel_blog | 45          | 12300     | 
+                | chef_john   | 200         | 8500      |
+11. ### Географічний розподіл користувачів
+
+**Бізнес-питання:**
+З яких країн походять наші користувачі і яка країна є найбільш активною за кількістю реєстрацій?
+
+**SQL-запит:**
+```sql
 SELECT 
     c.country_name, 
-    COUNT(u.user_id) as user_count
-FROM "countries" c
-LEFT JOIN "users" u ON c.country_id = u.country_id
-GROUP BY c.country_name
-ORDER BY user_count DESC;
+    COUNT(u.user_id) as total_users,
+    ROUND(COUNT(u.user_id) * 100.0 / (SELECT COUNT(*) FROM users), 2) as percentage
+FROM countries c
+LEFT JOIN users u ON c.country_id = u.country_id
+GROUP BY c.country_id, c.country_name
+HAVING COUNT(u.user_id) > 0
+ORDER BY total_users DESC;
 ```
+
+Пояснення:
+
+LEFT JOIN таблиць countries та users, щоб врахувати всі країни (навіть якщо там 0 користувачів, хоча HAVING це фільтрує).
+
+Групування за ID та назвою країни.
+
+Використання підзапиту (SELECT COUNT(*) FROM users) для обчислення відсоткової частки.
+
+Сортування від найбільшої кількості користувачів до найменшої.
+
+Приклад виводу: 
+                
+                | country_name | total_users | percentage | 
+                |--------------|-------------|------------| 
+                | Ukraine      | 150         | 45.50      | 
+                | USA          | 80          | 24.20      |
+                | Poland       | 45          | 13.60     |
+
 12. Repair Query: Recount count likes
 
 **If was some problems.**
