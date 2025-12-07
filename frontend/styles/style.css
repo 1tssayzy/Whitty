@@ -215,3 +215,21 @@ body {
   max-height: 500px;
   object-fit: cover;
 }
+
+#news {
+  text-align: center;
+}
+
+#profileLink {
+  background: #d8c3aa; /* мягкий бежево-коричневый */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease;
+  
+}
+
+
