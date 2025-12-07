@@ -44,7 +44,7 @@
   </head>
   <body>
     <p>
-      <a href="http://localhost:8080/">
+      <a href="http://localhost:8080/feed">
         <img
           src="/uploads/imgSite/W Font Letter-fotor-bg-remover-20250915145631.png"
           alt="Whitty"
@@ -78,6 +78,18 @@
         </form>
       </div>
     </div>
+    <div class="country-section" style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+    <h3>🌍 Your Region</h3>
+    
+    <p>Current country: <strong id="current-country-display">Not selected</strong></p>
+
+    <label for="countrySelect">Change country:</label>
+    <select id="countrySelect" style="padding: 5px; margin-right: 10px;">
+        <option value="">Loading...</option>
+    </select>
+    
+    <button id="saveCountryBtn" style="padding: 5px 10px; cursor: pointer;">Save</button>
+</div>
 
     <button id="openPostModalBtn" style="margin-top: 20px; padding: 10px 20px; cursor: pointer;">
     ➕ Create New Post
@@ -105,6 +117,68 @@
     <script src="/chat/logic.chat.js"></script>
     <script src="/js/post.js"></script>
     <script>
+      const countrySelect = document.getElementById('countrySelect');
+const saveCountryBtn = document.getElementById('saveCountryBtn');
+const currentCountryDisplay = document.getElementById('current-country-display');
+
+async function initCountrySettings() {
+    try {
+        const res = await fetch('/api/countries'); 
+        const countries = await res.json();
+        countrySelect.innerHTML = '<option value="">-- Select Country --</option>';
+
+        countries.forEach(c => {
+            const option = document.createElement('option');
+            option.value = c.country_id;
+            option.textContent = c.country_name;
+            countrySelect.appendChild(option);
+        });
+
+       
+        const userRes = await fetch('/auth/me'); 
+        if (userRes.ok) {
+            const user = await userRes.json();
+            
+            if (user.country) {
+                currentCountryDisplay.textContent = user.country.country_name;
+                countrySelect.value = user.country.country_id; списку
+            } else {
+                currentCountryDisplay.textContent = "Not set";
+            }
+        }
+
+    } catch (err) {
+        console.error("Error loading country data:", err);
+    }
+}
+
+saveCountryBtn.addEventListener('click', async () => {
+    const selectedId = countrySelect.value;
+    
+    if (!selectedId) return alert("Please select a country!");
+
+    try {
+        const res = await fetch('/auth/update-country', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ country_id: selectedId })
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            currentCountryDisplay.textContent = data.user.country.country_name;
+            alert("✅ Country updated successfully!");
+        } else {
+            alert("❌ Error updating country");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Something went wrong");
+    }
+});
+
+
+
       document
         .getElementById("logout-button")
         .addEventListener("click", function () {
@@ -153,6 +227,7 @@
           alert("Ошибка загрузки: " + err.message);
         }
       });
+      initCountrySettings();
     </script>
 
     <script type="module">

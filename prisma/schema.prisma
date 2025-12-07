@@ -18,7 +18,7 @@ model User {
   country    Country?  @relation(fields: [country_id], references: [country_id])
   posts      Post[]
   comments   Comment[]
-  
+  likes      Like[]
   followers Follow[] @relation("FollowingRelation") 
   following Follow[] @relation("FollowerRelation") 
   @@map("users")
@@ -42,7 +42,18 @@ model Post {
   created_at     DateTime? @db.Timestamp(6)
   user           User?     @relation(fields: [user_id], references: [user_id])
   comments       Comment[]
+  likes          Like[]
   @@map("posts")
+}
+
+model Like {
+  user_id Int
+  post_id Int
+  user    User @relation(fields: [user_id], references: [user_id])
+  post    Post @relation(fields: [post_id], references: [post_id])
+
+  @@id([user_id, post_id])
+  @@map("likes")
 }
 
 model Comment {

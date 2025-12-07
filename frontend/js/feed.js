@@ -14,7 +14,6 @@ async function loadPosts() {
     posts.forEach(post => {
         const postElement = document.createElement('div');
         postElement.className = 'post-card';
-        
         const date = new Date(post.created_at).toLocaleString();
         const authorAvatar = post.user ? post.user.avatar : '/uploads/avatars/default.png';
         const authorUsername = post.user ? post.user.username : 'Unknown';
@@ -37,63 +36,91 @@ async function loadPosts() {
             commentsHTML = '<div style="color: grey; font-size: 0.8em;">No comments yet...</div>';
         }
         postElement.innerHTML = `
-        <div class="post-header">
-            <img src="${authorAvatar}" alt="Avatar" class="avatar-small">
-            <span class="username">${authorUsername}</span>
-            <span class="date">${date}</span>
-        </div>
-        
-        <div class="post-content">
-            <p>${post.caption || post.content || ''}</p> 
-        </div>
+            <div class="post-header">
+                <img src="${authorAvatar}" alt="Avatar" class="avatar-small">
+                <span class="username">${authorUsername}</span>
+                <span class="date">${date}</span>
+            </div>
+            
+            <div class="post-content">
+                <p>${post.caption || post.content || ''}</p> 
+            </div>
 
-        ${postImageHTML} 
-        
-        <div class="post-footer">
-            <button class="like-btn">❤️ Like ${post.likes_count || 0}</button>
-        </div>
-        
-        <hr style="opacity: 0.3; margin: 10px 0;">
+            ${postImageHTML} 
+            
+            <button class="like-btn" data-post-id="${post.post_id}">
+                ❤️ <span class="like-count">${post.likes_count || 0}</span>
+            </button>
+            
+            <hr style="opacity: 0.3; margin: 10px 0;">
+            <div class="comments-list" id="comments-for-${post.post_id}">
+                ${commentsHTML}
+            </div>
 
-        <div class="comments-list" id="comments-for-${post.post_id}">
-            ${commentsHTML}
-        </div>
+            <form class="comment-form" data-post-id="${post.post_id}" style="margin-top: 10px; display: flex;">
+                <input type="text" placeholder="Write a comment..." required style="flex:1; padding: 5px;">
+                <button type="submit" style="margin-left:5px;">Send</button>
+            </form>
+        `;
+        const likeBtn = postElement.querySelector('.like-btn');
+        if (likeBtn) {
+             likeBtn.addEventListener('click', async () => {
+                try {
+                    const res = await fetch('/api/like', { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ post_id: post.post_id })
+                    });
 
-        <form class="comment-form" data-post-id="${post.post_id}" style="margin-top: 10px; display: flex;">
-            <input type="text" placeholder="Write a comment..." required style="flex:1; padding: 5px;">
-            <button type="submit" style="margin-left:5px;">Send</button>
-        </form>
-      `;
+                    if (res.ok) {
+                        const data = await res.json();
+                        const countSpan = likeBtn.querySelector('.like-count');
+                        let currentCount = parseInt(countSpan.innerText);
 
-      const form = postElement.querySelector('.comment-form');
-      form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const input = form.querySelector('input');
-          const text = input.value;
-          const postId = form.getAttribute('data-post-id');
+                        if (data.liked) {
+                            countSpan.innerText = currentCount + 1;
+                            likeBtn.style.color = "red"; 
+                        } else {
+                            countSpan.innerText = currentCount - 1;
+                            likeBtn.style.color = "black";
+                        }
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+        }
+        const form = postElement.querySelector('.comment-form');
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const input = form.querySelector('input');
+                const text = input.value;
+                const postId = form.getAttribute('data-post-id');
 
-          try {
-              const res = await fetch("http://localhost:8080/api/comment", { // 
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                      post_id: postId,
-                      comment_text: text
-                  })
-              });
+                try {
+                    const res = await fetch("http://localhost:8080/api/comment", { 
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            post_id: postId,
+                            comment_text: text
+                        })
+                    });
 
-              if (res.ok) {
-                  input.value = '';
-                  alert("Comment added!");
-              } else {
-                  alert("Error adding comment");
-              }
-          } catch (err) {
-              console.error(err);
-          }
-      });
+                    if (res.ok) {
+                        input.value = '';
+                        alert("Comment added!");
+                    } else {
+                        alert("Error adding comment");
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+        }
 
-      container.appendChild(postElement);
+        container.appendChild(postElement);
     });
 
   } catch (error) {
@@ -101,4 +128,5 @@ async function loadPosts() {
     container.innerHTML = '<p>Error loading feed.</p>';
   }
 }
+
 loadPosts();

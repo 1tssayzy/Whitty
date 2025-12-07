@@ -1,15 +1,15 @@
-const { Router } = require("express");
-const router = Router();
-const prisma = require("../repositories/index"); // Ваш налаштований Prisma Client
-const fileMiddleware = require("../middleware/fileMiddleware"); // Мультер
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const prisma = require("../repositories/index");
+const router = express.Router();
 const { requireAuth } = require("../middleware/authMiddleware");
-const fs = require("fs");
-const path = require("path");
+const postFileMiddleware = require("../middleware/postFileMiddleware");
+
 
 router.get("/countries", async (req, res) => {
   try {
     const countries = await prisma.country.findMany({
-      orderBy: { country_name: 'asc' } 
+      orderBy: { country_name: 'asc' } // Сортуємо за алфавітом
     });
     res.json(countries);
   } catch (e) {
@@ -18,18 +18,16 @@ router.get("/countries", async (req, res) => {
   }
 });
 
-// 2. ОНОВИТИ КРАЇНУ ЮЗЕРА
 router.post("/update-country", requireAuth, async (req, res) => {
   const { country_id } = req.body;
 
   try {
-    // Оновлюємо юзера
     const updatedUser = await prisma.user.update({
-      where: { user_id: req.user.id }, 
+      where: { user_id: req.user.id }, // ID з токена
       data: { 
-        country_id: Number(country_id) 
+        country_id: Number(country_id) // Перетворюємо рядок "5" у число 5
       },
-      include: { country: true } 
+      include: { country: true } // Повертаємо оновлені дані разом з назвою країни
     });
 
     res.json({ message: "Country updated!", user: updatedUser });
@@ -38,5 +36,3 @@ router.post("/update-country", requireAuth, async (req, res) => {
     res.status(500).json({ message: "Failed to update country" });
   }
 });
-
-module.exports = router;
