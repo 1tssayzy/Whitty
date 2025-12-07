@@ -171,3 +171,47 @@ body {
         font-weight: bold;
     }
     .submit-btn:hover { background-color: #0056b3; }
+
+    .post-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  max-width: 600px; /* Обмежимо ширину */
+  margin-left: auto; 
+  margin-right: auto;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.avatar-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold;
+  margin-right: auto; /* Відштовхує дату вправо */
+}
+
+.date {
+  color: #888;
+  font-size: 0.8em;
+}
+
+.post-image img {
+  width: 100%; /* Картинка на всю ширину картки */
+  border-radius: 4px;
+  margin-top: 10px;
+  max-height: 500px;
+  object-fit: cover;
+}

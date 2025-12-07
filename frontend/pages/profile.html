@@ -58,6 +58,7 @@
       <p>Welcome, <span id="username"></span></p>
       <button id="logout-button">Logout</button>
       <button id="chat-button">Start chatting</button>
+      <button id="feed-button">News Feed 📰</button>
 
      
       <img id="profile-pic" src="/uploads/imgSite/default.jpg" alt="Profile Picture" width="300" />
@@ -124,6 +125,10 @@
       const closeBtnAvatar = document.getElementById("close-modal");
       const profilePic = document.getElementById("profile-pic");
       const formAvatar = document.getElementById("avatarForm");
+      document.getElementById("feed-button").addEventListener("click", function () {
+  
+  window.location.href = "/feed";
+      });
 
       openBtnAvatar.addEventListener("click", () => modalAvatar.classList.remove("hidden"));
       closeBtnAvatar.addEventListener("click", () => modalAvatar.classList.add("hidden"));
