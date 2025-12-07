@@ -1,9 +1,11 @@
 async function loadPosts() {
-const container = document.getElementById('feed-list');
+const container = document.getElementById('posts-container');
 
 try {
-    const response = fetch("http://localhost:8080/api/post");
-   
+    const response =  await fetch("http://localhost:8080/api/post");
+   if(!response.ok){
+    throw new Error(`HTTP error! status:${response.status}`);
+   }
     container.innerHTML = '';
 
     const posts = await response.json();
@@ -12,7 +14,7 @@ try {
         const postElement = document.createElement('div');
         postElement.className = 'post-card';
         const date = new Date(post.created_at).toLocaleString();
-        const author = post.user.avatar;
+        const authorAvatar= post.user.avatar;
         const authorUsername = post.user.username;
 
         const postImageHTML = post.imageUrl
@@ -21,7 +23,7 @@ try {
         postElement.innerHTML = `
         <div class="post-header">
             <img src="${authorAvatar}" alt="Avatar" class="avatar-small">
-            <span class="username">${authorName}</span>
+            <span class="username">${authorUsername}</span>
             <span class="date">${date}</span>
         </div>
         
